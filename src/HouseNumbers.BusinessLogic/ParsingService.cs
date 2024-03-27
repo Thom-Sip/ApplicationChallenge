@@ -8,9 +8,16 @@ namespace HouseNumbers.BusinessLogic
         List<HouseNumberDetails> ParseCsv(string path);
     }
 
-    public class ParsingService(IOptions<ParseSettings> parseSettings) : IParsingService
+    public class ParsingService : IParsingService
     {
-        ParseSettings Settings { get; init; } = parseSettings.Value;
+        ParseSettings Settings { get; init; }
+        public string AllowedCharacters { get; init; }
+
+        public ParsingService(IOptions<ParseSettings> parseSettings)
+        {
+            Settings = parseSettings.Value;
+            AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
 
         public List<HouseNumberDetails> ParseCsv(string path)
         {
@@ -33,7 +40,7 @@ namespace HouseNumbers.BusinessLogic
                     {
                         var suffixParsed = columns[1].Trim().ToUpper();
 
-                        if (suffixParsed.Length == 1 && Char.IsLetter(suffixParsed[0]))
+                        if (suffixParsed.Length == 1 && IsAllowedSuffix(suffixParsed[0]))
                         {
                             suffix = suffixParsed;
                         }
@@ -66,6 +73,17 @@ namespace HouseNumbers.BusinessLogic
             }
 
             return result;
+        }
+
+        public bool IsAllowedSuffix(char character)
+        {
+            for(int i = 0; i < AllowedCharacters.Length; i++)
+            {
+                if (AllowedCharacters[i] == character)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
