@@ -1,16 +1,18 @@
 using FluentAssertions;
 using HouseNumbers.BusinessLogic;
 using HouseNumbers.BusinessLogic.Models;
+using System.Collections;
+using Xunit;
 
 namespace HouseNumbers.Tests
 {
     public class BubbleSortServiceTests
     {
-        ISortingService service { get; init; }
+        ISortingService Service { get; init; }
 
         public BubbleSortServiceTests()
         {
-            service = new BubbleSortService();
+            Service = new BubbleSortService();
         }
 
         [Theory]
@@ -21,7 +23,7 @@ namespace HouseNumbers.Tests
             var outputAString = string.Join(',', expected);
 
             // sort the input
-            service.Sort(input);
+            Service.Sort(input);
 
             // convert sorted input to string
             var sortedInputString = string.Join(',', input);
@@ -73,6 +75,6 @@ namespace HouseNumbers.Tests
 
         public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

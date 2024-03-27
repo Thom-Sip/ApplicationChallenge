@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using HouseNumbers.BusinessLogic.Models;
+using System.Collections;
+using Xunit;
 
 namespace HouseNumbers.Tests
 {
@@ -7,16 +9,21 @@ namespace HouseNumbers.Tests
     {
         [Theory]
         [ClassData(typeof(HouseNumberDetailsTestData))]
-        public void CompareShouldReturnCorrectResult(HouseNumberDetails first, HouseNumberDetails second, int result)
+        public void CompareShouldReturnCorrectResult(HouseNumberDetails first, HouseNumberDetails? second, int result)
         {
             first.CompareTo(second).Should().Be(result);
         }
 
-        public class HouseNumberDetailsTestData() : IEnumerable<object[]>
+        public class HouseNumberDetailsTestData() : IEnumerable<object?[]>
         {
-            private static readonly List<object[]> _data =
+            private static readonly List<object?[]> _data =
             [
                 // First input is greater than 2nd input
+                [
+                    new HouseNumberDetails { Number = 1 },
+                    null,
+                    1
+                ],
                 [
                     new HouseNumberDetails { Number = 2 },
                     new HouseNumberDetails { Number = 1 },
@@ -63,7 +70,7 @@ namespace HouseNumbers.Tests
 
             public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

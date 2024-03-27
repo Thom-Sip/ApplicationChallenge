@@ -1,21 +1,18 @@
 ﻿using HouseNumbers.BusinessLogic;
+using HouseNumbers.BusinessLogic.Models;
+using Microsoft.Extensions.Options;
 
 namespace HouseNumbers.App
 {
-    public class ConsoleApp
+    public class ConsoleApp(IParsingService parsingService, ISortingService sortingService, IOptions<ParseSettings> parseSettings)
     {
-        readonly IParsingService parsingService;
-        readonly ISortingService sortingService;
-
-        public ConsoleApp(IParsingService parsingService, ISortingService sortingService)
-        {
-            this.parsingService = parsingService;
-            this.sortingService = sortingService;
-        }
+        readonly IParsingService parsingService = parsingService;
+        readonly ISortingService sortingService = sortingService;
+        readonly ParseSettings parseSettings = parseSettings.Value;
 
         public void Run()
         {
-            var entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dataset_Assessment_Dev_MA_25032024.csv"));
+            var entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName));
             sortingService.Sort(entries);
 
             for (int i = 0; i < entries.Count; i++)
