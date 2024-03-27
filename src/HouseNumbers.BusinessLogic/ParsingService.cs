@@ -1,4 +1,5 @@
 ﻿using HouseNumbers.BusinessLogic.Models;
+using Microsoft.Extensions.Options;
 
 namespace HouseNumbers.BusinessLogic
 {
@@ -7,14 +8,9 @@ namespace HouseNumbers.BusinessLogic
         List<HouseNumberDetails> ParseCsv(string path);
     }
 
-    public class ParsingService : IParsingService
+    public class ParsingService(IOptions<ParseSettings> parseSettings) : IParsingService
     {
-        public bool AllowDuplicates { get; init; }
-
-        public ParsingService()
-        {
-
-        }
+        ParseSettings Settings { get; init; } = parseSettings.Value;
 
         public List<HouseNumberDetails> ParseCsv(string path)
         {
@@ -50,7 +46,7 @@ namespace HouseNumbers.BusinessLogic
                     };
 
                     bool AlreadyExists = false;
-                    if (!AllowDuplicates)
+                    if (!Settings.AllowDuplicates)
                     {
                         for (int k = 0; k < result.Count; k++)
                         {

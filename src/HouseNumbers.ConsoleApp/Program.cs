@@ -1,4 +1,5 @@
 ﻿using HouseNumbers.BusinessLogic;
+using HouseNumbers.BusinessLogic.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,14 +16,22 @@ namespace HouseNumbers.App
                 .Build();
 
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-
-            builder.Services.AddScoped<IConfiguration>(_ => configuration);
-            builder.Services.AddScoped<IParsingService, ParsingService>();
-            builder.Services.AddScoped<ISortingService, BubbleSortService>();
-            builder.Services.AddSingleton<ConsoleApp>();
+            SetupDependencyInjection(builder.Services, configuration);
 
             using IHost host = builder.Build();
             ServiceLifeTime(host.Services);
+        }
+
+        static void SetupDependencyInjection(IServiceCollection services, IConfigurationRoot configuration)
+        {
+            services.AddScoped<IConfiguration>(_ => configuration);
+
+            services.AddScoped<IParsingService, ParsingService>();
+            services.AddScoped<ISortingService, BubbleSortService>();
+            services.AddSingleton<ConsoleApp>();
+
+            services.AddOptions<ParseSettings>()
+                .Bind(configuration.GetSection(nameof(ParseSettings)));
         }
 
         static void ServiceLifeTime(IServiceProvider hostProvider)
