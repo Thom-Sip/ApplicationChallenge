@@ -21,7 +21,10 @@
                 if (Suffix == other.Suffix)
                     return 0;
 
-                if (Suffix?.FirstOrDefault() > other.Suffix?.FirstOrDefault())
+                var suffix = Suffix?.FirstOrDefault();
+                var suffixOther = other.Suffix?.FirstOrDefault();
+
+                if (suffixOther == null && suffix != null || Suffix?.FirstOrDefault() > other.Suffix?.FirstOrDefault())
                     return 1;
 
                 return -1;
