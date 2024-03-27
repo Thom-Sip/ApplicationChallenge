@@ -2,7 +2,12 @@
 
 namespace HouseNumbers.BusinessLogic
 {
-    public class ParsingService
+    public interface IParsingService
+    {
+        List<HouseNumberDetails> ParseCsv(string path);
+    }
+
+    public class ParsingService : IParsingService
     {
         public bool AllowDuplicates { get; init; }
 

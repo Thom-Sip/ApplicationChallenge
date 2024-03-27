@@ -1,6 +1,11 @@
 ﻿namespace HouseNumbers.BusinessLogic
 {
-    public class BubbleSortService
+    public interface ISortingService
+    {
+        void Sort<T>(List<T> list) where T : IComparable<T>;
+    }
+
+    public class BubbleSortService : ISortingService
     {
         public void Sort<T>(List<T> list) where T : IComparable<T>
         {

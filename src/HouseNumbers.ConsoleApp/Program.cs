@@ -1,19 +1,37 @@
 ﻿using HouseNumbers.BusinessLogic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace HouseNumbers.ConsoleApp
+namespace HouseNumbers.App
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var csvParser = new ParsingService();
-            var entries = csvParser.ParseCsv("D:/dataset_Assessment_Dev_MA_25032024.csv");
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"))
+                .AddEnvironmentVariables()
+                .Build();
 
-            var sorter = new BubbleSortService();
-            sorter.Sort(entries);
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-            for (int i = 0; i < entries.Count; i++)
-                Console.WriteLine(entries[i]);
+            builder.Services.AddScoped<IConfiguration>(_ => configuration);
+            builder.Services.AddScoped<IParsingService, ParsingService>();
+            builder.Services.AddScoped<ISortingService, BubbleSortService>();
+            builder.Services.AddSingleton<ConsoleApp>();
+
+            using IHost host = builder.Build();
+            ServiceLifeTime(host.Services);
+        }
+
+        static void ServiceLifeTime(IServiceProvider hostProvider)
+        {
+            using IServiceScope serviceScope = hostProvider.CreateScope();
+            IServiceProvider provider = serviceScope.ServiceProvider;
+
+            var app = hostProvider.GetRequiredService<ConsoleApp>();
+            app.Run();
         }
     }
 }
