@@ -14,6 +14,7 @@ namespace HouseNumbers.App
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"))
                 .AddEnvironmentVariables()
+                .AddCommandLine(args)
                 .Build();
 
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
@@ -25,8 +26,6 @@ namespace HouseNumbers.App
 
         static void SetupDependencyInjection(IServiceCollection services, IConfigurationRoot configuration)
         {
-            services.AddScoped<IConfiguration>(_ => configuration);
-
             services.AddScoped<IParsingService, ParsingService>();
             services.AddSingleton<SortingServiceFactory>();
             services.AddSingleton<ConsoleApp>();
