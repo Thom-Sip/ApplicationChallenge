@@ -28,11 +28,14 @@ namespace HouseNumbers.App
             services.AddScoped<IConfiguration>(_ => configuration);
 
             services.AddScoped<IParsingService, ParsingService>();
-            services.AddScoped<ISortingService, QuickSortService>();
+            services.AddSingleton<SortingServiceFactory>();
             services.AddSingleton<ConsoleApp>();
 
             services.AddOptions<ParseSettings>()
                 .Bind(configuration.GetSection(nameof(ParseSettings)));
+
+            services.AddOptions<SortingSettings>()
+                .Bind(configuration.GetSection(nameof(SortingSettings)));
         }
 
         static void ServiceLifeTime(IServiceProvider hostProvider)

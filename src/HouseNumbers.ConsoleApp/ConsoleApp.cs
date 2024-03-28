@@ -5,17 +5,29 @@ using Microsoft.Extensions.Options;
 
 namespace HouseNumbers.App
 {
-    public class ConsoleApp(IParsingService parsingService, ISortingService sortingService, IOptions<ParseSettings> parseSettings)
+    public class ConsoleApp(
+        IParsingService parsingService, 
+        SortingServiceFactory sortingServiceFactory, 
+        IOptions<ParseSettings> parseSettings,
+        IOptions<SortingSettings> sortingSettings)
     {
         readonly IParsingService parsingService = parsingService;
-        readonly ISortingService sortingService = sortingService;
+        readonly SortingServiceFactory sortingServiceFactory = sortingServiceFactory;
         readonly ParseSettings parseSettings = parseSettings.Value;
+        readonly SortingSettings sortingSettings = sortingSettings.Value;
 
         public void Run()
         {
-            var entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName));
+            // Get Entries from csv
+            List<HouseNumberDetails> entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName));
+
+            // Get the requested SortingService based on the appsettings
+            ISortingService sortingService = sortingServiceFactory.GetService(sortingSettings.Type);
+
+            // Sort Entries in place
             sortingService.Sort(entries);
 
+            // Print result
             Console.WriteLine(string.Join(',', entries));
         }
     }
