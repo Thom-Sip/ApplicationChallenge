@@ -23,8 +23,6 @@ namespace HouseNumbers.Benchmark
                 new ParseSettings
                 {
                     AllowDuplicates = false,
-                    // Relative Path from benchmark output dir to input file.
-                    // Not the cleanest solution, but this prevents us from duplicating the input file into 2 projects
                     FileName = "dataset_Assessment_Dev_MA_25032024.csv"
                 });
 
