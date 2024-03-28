@@ -15,4 +15,10 @@
     <ProjectReference Include="..\..\src\HouseNumbers.ConsoleApp\HouseNumbers.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="dataset_Assessment_Dev_MA_25032024.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
