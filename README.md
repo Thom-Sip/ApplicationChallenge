@@ -5,19 +5,19 @@ BubbleSort and QuickSort. After running the benchmarks it shows that:
 - Static Parsing is slightly faster
 - QuickSort is much faster
 
-Which parsing and sorting method are used configurable. I set the defaults to the fastest solution
+Which parsing and sorting method are used is configurable. I set the defaults to the fastest solutions.
 
 # Setup
 - Open a powershell/terminal window at the repository root.
 - Build the application:
     - ```dotnet build ApplicationChallenge.sln --configuration Release``` 
-- Navigate the terminal to the outputfolder of the HouseNumbers.ConsoleApp project:
+- Navigate the terminal to the outputfolder of the **HouseNumbers.ConsoleApp** project:
     - ```CD src\HouseNumbers.ConsoleApp\bin\Release\net8.0```
 - Run the App using the default settings:
     - ```dotnet HouseNumbers.App.dll```
-- Run the App using the BubbleSort: 
+- Run the App using the **BubbleSort**: 
     - ```dotnet HouseNumbers.App.dll --SortingSettings:Type QuickSortService```
-- Run the App using RegexValidation:
+- Run the App using **RegexValidation**:
     - ```dotnet HouseNumbers.App.dll --ParsingSettings:Type Regex```
 
 # Running the benchmark
