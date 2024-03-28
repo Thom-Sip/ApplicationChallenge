@@ -1,5 +1,6 @@
 ﻿using HouseNumbers.BusinessLogic;
 using HouseNumbers.BusinessLogic.Models;
+using HouseNumbers.BusinessLogic.Sorting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,7 @@ namespace HouseNumbers.App
             services.AddScoped<IConfiguration>(_ => configuration);
 
             services.AddScoped<IParsingService, ParsingService>();
-            services.AddScoped<ISortingService, BubbleSortService>();
+            services.AddScoped<ISortingService, QuickSortService>();
             services.AddSingleton<ConsoleApp>();
 
             services.AddOptions<ParseSettings>()

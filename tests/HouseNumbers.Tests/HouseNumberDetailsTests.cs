@@ -8,15 +8,15 @@ namespace HouseNumbers.Tests
     public class HouseNumberDetailsTests
     {
         [Theory]
-        [ClassData(typeof(HouseNumberDetailsTestData))]
+        [MemberData(nameof(HouseNumberDetailsTestData))]
         public void CompareShouldReturnCorrectResult(HouseNumberDetails first, HouseNumberDetails? second, int result)
         {
             first.CompareTo(second).Should().Be(result);
         }
 
-        public class HouseNumberDetailsTestData() : IEnumerable<object?[]>
+        public static IEnumerable<object[]?> HouseNumberDetailsTestData()
         {
-            private static readonly List<object?[]> _data =
+            List<object[]?> data =
             [
                 // First input is greater than 2nd input
                 [
@@ -35,8 +35,8 @@ namespace HouseNumbers.Tests
                     1
                 ],
                 [
-                    new HouseNumberDetails{ Number = 2, Suffix = "A" },
-                    new HouseNumberDetails{ Number = 2 },
+                    new HouseNumberDetails { Number = 2, Suffix = "A" },
+                    new HouseNumberDetails { Number = 2 },
                     1
                 ],
                 // Inputs are equal
@@ -68,9 +68,7 @@ namespace HouseNumbers.Tests
                 ],
             ];
 
-            public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            return data;
         }
     }
 }

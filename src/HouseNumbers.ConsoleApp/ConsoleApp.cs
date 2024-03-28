@@ -1,5 +1,6 @@
 ﻿using HouseNumbers.BusinessLogic;
 using HouseNumbers.BusinessLogic.Models;
+using HouseNumbers.BusinessLogic.Sorting;
 using Microsoft.Extensions.Options;
 
 namespace HouseNumbers.App
@@ -15,8 +16,7 @@ namespace HouseNumbers.App
             var entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName));
             sortingService.Sort(entries);
 
-            for (int i = 0; i < entries.Count; i++)
-                Console.WriteLine(entries[i]);
+            Console.WriteLine(string.Join(',', entries));
         }
     }
 }
