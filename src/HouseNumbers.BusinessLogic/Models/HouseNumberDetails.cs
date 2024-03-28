@@ -2,9 +2,9 @@
 {
     public class HouseNumberDetails : IComparable<HouseNumberDetails>
     {
-        public int Number { get; set; }
+        public required int Number { get; init; }
 
-        public string? Suffix { get; set; }
+        public string Suffix { get; init; } = string.Empty;
 
         /// <summary>
         /// Implement IComparable<T> to allow sorting of custom objects

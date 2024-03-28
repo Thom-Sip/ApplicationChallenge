@@ -1,72 +1,38 @@
 ﻿using HouseNumbers.BusinessLogic.Models;
-using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;
 
 namespace HouseNumbers.BusinessLogic.Parsing
 {
     public interface IParsingService
     {
-        List<HouseNumberDetails> ParseCsv();
+        List<HouseNumberDetails> ParseCsv(ParseSettings settings);
     }
 
     public class ParsingService : IParsingService
     {
-        ParseSettings Settings { get; init; }
-        public string AllowedCharacters { get; init; }
-
-        public ParsingService(IOptions<ParseSettings> parseSettings)
+        public List<HouseNumberDetails> ParseCsv(ParseSettings settings)
         {
-            Settings = parseSettings.Value;
-            AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        }
+            if (!File.Exists(settings.FileName))
+                throw new ArgumentException($"No file exists at '{settings.FileName}'");
 
-        public List<HouseNumberDetails> ParseCsv()
-        {
-            if (!File.Exists(Settings.FileName))
-                throw new ArgumentException($"No file exists at '{Settings.FileName}'");
-
-            var data = File.ReadAllLines(Settings.FileName);
+            var data = File.ReadAllLines(settings.FileName);
             var result = new List<HouseNumberDetails>();
 
+            // Skip the first line since this is the header of the csv
             for (int i = 1; i < data.Length; i++)
             {
                 var line = data[i];
-                var columns = SplitRowIntoColumns(line, Settings.ColumnDelimiterType);
+                var cells = SplitLineIntoCells(line, settings.ColumnDelimiterType);
 
-                if (int.TryParse(columns[0], out int number) && number > 0)
+                if (int.TryParse(cells[0], out int number) && number > 0)
                 {
-                    string? suffix = null;
-
-                    if (columns.Length > 1 && columns[1].Length > 0)
-                    {
-                        var suffixParsed = columns[1].Trim().ToUpper();
-
-                        if (IsValidSuffix(suffixParsed))
-                        {
-                            suffix = suffixParsed;
-                        }
-                    }
-
                     var details = new HouseNumberDetails
                     {
                         Number = number,
-                        Suffix = suffix,
+                        Suffix = GetSuffix(cells, settings.SuffixValidationRegex),
                     };
 
-                    bool AlreadyExists = false;
-                    if (!Settings.AllowDuplicates)
-                    {
-                        for (int k = 0; k < result.Count; k++)
-                        {
-                            if (result[k].CompareTo(details) == 0)
-                            {
-                                AlreadyExists = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!AlreadyExists)
+                    if(settings.AllowDuplicates || !Contains(result, details))
                     {
                         result.Add(details);
                     }
@@ -80,7 +46,7 @@ namespace HouseNumbers.BusinessLogic.Parsing
         /// Most of the csv using semicolons as coloumn delimiter, but part of it using tabs.
         /// Implementation support either or both methods per row.
         /// </summary>
-        static string[] SplitRowIntoColumns(string row, ColumnDelimiterType columnDelimiterType)
+        static string[] SplitLineIntoCells(string row, ColumnDelimiterType columnDelimiterType)
         {
             if (columnDelimiterType == ColumnDelimiterType.Both)
             {
@@ -99,53 +65,38 @@ namespace HouseNumbers.BusinessLogic.Parsing
             };
         }
 
-        bool IsValidSuffix(string suffix)
+        /// <summary>
+        /// Extract the Suffix from the row data
+        /// </summary>
+        static string GetSuffix(string[] columns, string regex)
         {
-            return Settings.SuffixValidationType switch
+            if (columns.Length > 1 && columns[1].Length > 0)
             {
-                SuffixValidationType.Static => IsValiStaticSuffix(suffix, Settings.StaticSuffixValidation),
-                SuffixValidationType.Regex => IsValidRegexSuffix(suffix, Settings.RegexSuffixValidation),
-                _ => throw new ArgumentException(
-                    $"Config Settings {nameof(SuffixValidationType)} {Settings.SuffixValidationType} is not supported")
-            };
-        }
+                var suffix = columns[1].Trim().ToUpper();
 
-        bool IsValiStaticSuffix(string suffix, StaticSuffixValidation? settings)
-        {
-            if (settings == null)
-                throw new ArgumentException(
-                    $"You are using {nameof(StaticSuffixValidation)} but the property is missing from the appsettings");
-
-            if (suffix.Length > settings.MaxCharacters)
-                return false;
-
-            for(int i = 0; i < suffix.Length; i++)
-            {
-                if (!IsvalidStaticCharacter(suffix[i], settings.AllowedCharacters))
-                    return false;
+                if (Regex.IsMatch(suffix, regex))
+                {
+                    return suffix;
+                }
             }
 
-            return true;
+            return string.Empty;
         }
 
-        static bool IsvalidStaticCharacter(char character, string allowedCharacters)
+        /// <summary>
+        /// Check if an new record already exists in the result
+        /// </summary>
+        static bool Contains(List<HouseNumberDetails> result, HouseNumberDetails newEntry)
         {
-            for(int i = 0; i < allowedCharacters.Length; i++)
+            for (int i = 0; i < result.Count; i++)
             {
-                if (character == allowedCharacters[i])
+                if (result[i].CompareTo(newEntry) == 0)
+                {
                     return true;
+                }
             }
 
             return false;
-        }
-
-        static bool IsValidRegexSuffix(string suffix, RegexSuffixValidation? settings)
-        {
-            if(settings == null)
-                throw new ArgumentException(
-                    $"You are using {nameof(RegexSuffixValidation)} but the property is missing from the appsettings");
-
-            return Regex.IsMatch(suffix, settings.Regex);
         }
     }
 }

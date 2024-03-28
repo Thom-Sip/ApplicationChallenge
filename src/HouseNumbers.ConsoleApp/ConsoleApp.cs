@@ -25,7 +25,7 @@ namespace HouseNumbers.App
             PrintSettings(sortingSettings);
 
             // Get Entries from csv
-            List<HouseNumberDetails> entries = parsingService.ParseCsv();
+            List<HouseNumberDetails> entries = parsingService.ParseCsv(parseSettings);
 
             // Get the requested SortingService based on the appsettings
             ISortingService sortingService = sortingServiceFactory.GetService(sortingSettings.Type);
