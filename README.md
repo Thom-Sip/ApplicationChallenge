@@ -1,11 +1,16 @@
 # Intro
 The challenge has 2 main components, parsing and sorting. I implemented a parsing solution that
 uses Full static checking and 1 that uses partial Regex Checking. For the Sorting part I implemented
-BubbleSort and QuickSort. After running the benchmarks it shows that:
+**BubbleSort** and **QuickSort**. The Parsing and Sorting methods are both configurable.
+
+In order to allow sorting to work you need some way of determining if an object is considered 
+greater, smaller or equal to another object. for this I implemented ```IComparable<T>``` on the 
+**HouseNumberDetails** object. This also means that the Sorting services can be used with any object that implements it.
+
+For benchmarking I used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
+I set the defaults in **appsettings.json** based on the benchmark result:
 - Static Parsing is slightly faster
 - QuickSort is much faster
-
-Which parsing and sorting method are used is configurable. I set the defaults to the fastest solutions.
 
 # Setup
 - Open a powershell/terminal window at the repository root.
