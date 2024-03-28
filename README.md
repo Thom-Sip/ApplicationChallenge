@@ -21,7 +21,7 @@ I set the defaults in **appsettings.json** based on the benchmark result:
 - Run the App using the default settings:
     - ```dotnet HouseNumbers.App.dll```
 - Run the App using the **BubbleSort**: 
-    - ```dotnet HouseNumbers.App.dll --SortingSettings:Type QuickSortService```
+    - ```dotnet HouseNumbers.App.dll --SortingSettings:Type BubbleSortService```
 - Run the App using **RegexValidation**:
     - ```dotnet HouseNumbers.App.dll --ParsingSettings:Type Regex```
 
