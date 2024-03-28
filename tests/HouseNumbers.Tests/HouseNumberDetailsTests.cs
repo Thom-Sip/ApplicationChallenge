@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using HouseNumbers.BusinessLogic.Models;
-using System.Collections;
 using Xunit;
 
 namespace HouseNumbers.Tests
@@ -14,9 +13,9 @@ namespace HouseNumbers.Tests
             first.CompareTo(second).Should().Be(result);
         }
 
-        public static IEnumerable<object[]?> HouseNumberDetailsTestData()
+        public static IEnumerable<object?[]> HouseNumberDetailsTestData()
         {
-            List<object[]?> data =
+            List<object?[]> data =
             [
                 // First input is greater than 2nd input
                 [
