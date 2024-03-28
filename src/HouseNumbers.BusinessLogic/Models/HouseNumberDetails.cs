@@ -17,23 +17,9 @@
                 return 1;
 
             if (Number == other.Number)
-            {
-                if (Suffix == other.Suffix)
-                    return 0;
+                return Suffix.CompareTo(other.Suffix);
 
-                var suffix = Suffix?.FirstOrDefault();
-                var suffixOther = other.Suffix?.FirstOrDefault();
-
-                if (suffixOther == null && suffix != null || Suffix?.FirstOrDefault() > other.Suffix?.FirstOrDefault())
-                    return 1;
-
-                return -1;
-            }
-
-            if (Number > other.Number)
-                return 1;
-
-            return -1;
+            return Number.CompareTo(other.Number);
         }
 
         public override string ToString()

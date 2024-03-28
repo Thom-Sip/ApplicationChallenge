@@ -19,23 +19,47 @@ namespace HouseNumbers.Tests
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void BubbleSortTests<T>(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void BubbleSortAscendingTests<T>(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
         {
             // Sort dataset using BubbleSortService
-            BubbleSortService.Sort(input);
+            BubbleSortService.Sort(input, SortOrder.Ascending);
 
-            // make sure they sorted input matches the expected output
+            // make sure the sorted input matches the expected output
             string.Join(',', input).Should().Be(string.Join(',', expected));
         }
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void QuickSortTests(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void BubbleSortDescendingTests<T>(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        {
+            // Sort dataset using BubbleSortService
+            BubbleSortService.Sort(input, SortOrder.Descending);
+
+            // make sure the sorted input matches the expected output
+            expected.Reverse();
+            string.Join(',', input).Should().Be(string.Join(',', expected));
+        }
+
+        [Theory]
+        [MemberData(nameof(SortingTestData))]
+        public void QuickSortAscendingTests(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
         {
             // Sort dataset using QuickSortService
-            QuickSortService.Sort(input);
+            QuickSortService.Sort(input, SortOrder.Ascending);
 
-            // make sure they sorted input matches the expected output
+            // make sure the sorted input matches the expected output
+            string.Join(',', input).Should().Be(string.Join(',', expected));
+        }
+
+        [Theory]
+        [MemberData(nameof(SortingTestData))]
+        public void QuickSortDescendingTests(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        {
+            // Sort dataset using QuickSortService
+            QuickSortService.Sort(input, SortOrder.Descending);
+
+            // make sure the sorted input matches the expected output
+            expected.Reverse();
             string.Join(',', input).Should().Be(string.Join(',', expected));
         }
 
@@ -49,9 +73,11 @@ namespace HouseNumbers.Tests
                         new() { Number = 2, Suffix = "A" },
                         new() { Number = 1, Suffix = "B" },
                         new() { Number = 2, Suffix = "B" },
+                        new() { Number = 2, Suffix = "BB" },
                         new() { Number = 1 },
                         new() { Number = 1, Suffix = "A" },
                         new() { Number = 2 },
+                        new() { Number = 2, Suffix = "BA" },
                     },
                     new List<HouseNumberDetails>
                     {
@@ -61,6 +87,8 @@ namespace HouseNumbers.Tests
                         new() { Number = 2 },
                         new() { Number = 2, Suffix = "A" },
                         new() { Number = 2, Suffix = "B" },
+                        new() { Number = 2, Suffix = "BA" },
+                        new() { Number = 2, Suffix = "BB" },
                     }
                 ],
                 [

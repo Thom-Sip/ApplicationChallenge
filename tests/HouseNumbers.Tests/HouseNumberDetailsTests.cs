@@ -34,6 +34,11 @@ namespace HouseNumbers.Tests
                     1
                 ],
                 [
+                    new HouseNumberDetails { Number = 2, Suffix = "BB" },
+                    new HouseNumberDetails { Number = 2, Suffix = "BA" },
+                    1
+                ],
+                [
                     new HouseNumberDetails { Number = 2, Suffix = "A" },
                     new HouseNumberDetails { Number = 2 },
                     1

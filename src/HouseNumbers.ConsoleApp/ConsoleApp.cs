@@ -31,7 +31,7 @@ namespace HouseNumbers.App
             ISortingService sortingService = sortingServiceFactory.GetService(sortingSettings.Type);
 
             // Sort Entries in place
-            sortingService.Sort(entries);
+            sortingService.Sort(entries, sortingSettings.Order);
 
             // Print result
             Console.WriteLine(string.Join(',', entries));

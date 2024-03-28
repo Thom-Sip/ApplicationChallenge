@@ -34,9 +34,9 @@ namespace HouseNumbers.Benchmark
         public void Parsing() => ParsingService.ParseCsv(ParseSettings);
 
         [Benchmark]
-        public void Sorting__BubbleSort() => BubbleSortService.Sort(new List<HouseNumberDetails>(Housenumbers));
+        public void Sorting__BubbleSort() => BubbleSortService.Sort(new List<HouseNumberDetails>(Housenumbers), SortOrder.Ascending);
 
         [Benchmark]
-        public void Sorting__QuickSort() => QuickSortService.Sort(new List<HouseNumberDetails>(Housenumbers));
+        public void Sorting__QuickSort() => QuickSortService.Sort(new List<HouseNumberDetails>(Housenumbers), SortOrder.Ascending);
     }
 }

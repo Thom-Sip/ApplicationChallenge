@@ -13,12 +13,22 @@ For benchmarking I used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDot
 - Open a powershell/terminal window at the repository root.
 - Build the application:
     - ```dotnet build ApplicationChallenge.sln --configuration Release``` 
+
+# Running the app
 - Navigate the terminal to the outputfolder of the **HouseNumbers.ConsoleApp** project:
     - ```CD src\HouseNumbers.ConsoleApp\bin\Release\net8.0```
+
 - Run the App using the default settings:
     - ```dotnet HouseNumbers.App.dll```
-- Run the App using the **BubbleSortService**: 
+
+- Run the App using the **BubbleSortService**:
     - ```dotnet HouseNumbers.App.dll --SortingSettings:Type BubbleSortService```
+
+- Run the App and Sort the results in **descending order**:
+    - ```dotnet HouseNumbers.App.dll --SortingSettings:Order Descending```
+
+- Run the App and allow the suffix to consist of 2 letters instead of 1:
+    - ```dotnet HouseNumbers.App.dll --ParseSettings:SuffixValidationRegex "^[A-Za-z]{1,2}$"```
 
 # Running the benchmark
 - Navigate to the benchmark project output folder
@@ -35,8 +45,8 @@ AMD Ryzen 9 7845HX with Radeon Graphics, 1 CPU, 24 logical and 12 physical cores
   [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
 ```
-| Method              | Mean        | Error    | StdDev   |
-|-------------------- |------------:|---------:|---------:|
-| Parsing             | 3,142.80 μs | 9.897 μs | 7.727 μs |
-| Sorting__BubbleSort |   633.58 μs | 5.795 μs | 4.839 μs |
-| Sorting__QuickSort  |    18.11 μs | 0.362 μs | 0.604 μs |
+| Method              | Mean        | Error     | StdDev    |
+|-------------------- |------------:|----------:|----------:|
+| Parsing             | 2,689.72 μs | 40.907 μs | 38.264 μs |
+| Sorting__BubbleSort |   430.17 μs |  8.478 μs | 16.734 μs |
+| Sorting__QuickSort  |    15.75 μs |  0.248 μs |  0.220 μs |

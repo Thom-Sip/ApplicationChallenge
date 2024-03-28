@@ -2,6 +2,6 @@
 {
     public interface ISortingService
     {
-        void Sort<T>(List<T> list) where T : IComparable<T>;
+        void Sort<T>(List<T> list, SortOrder order) where T : IComparable<T>;
     }
 }
