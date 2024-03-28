@@ -2,6 +2,8 @@
 using HouseNumbers.BusinessLogic.Models;
 using HouseNumbers.BusinessLogic.Sorting;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace HouseNumbers.App
 {
@@ -18,8 +20,12 @@ namespace HouseNumbers.App
 
         public void Run()
         {
+            // Print Settings used
+            PrintSettings(parseSettings);
+            PrintSettings(sortingSettings);
+
             // Get Entries from csv
-            List<HouseNumberDetails> entries = parsingService.ParseCsv(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName));
+            List<HouseNumberDetails> entries = parsingService.ParseCsv(GetInputFilePath());
 
             // Get the requested SortingService based on the appsettings
             ISortingService sortingService = sortingServiceFactory.GetService(sortingSettings.Type);
@@ -30,5 +36,13 @@ namespace HouseNumbers.App
             // Print result
             Console.WriteLine(string.Join(',', entries));
         }
+
+        private static void PrintSettings(object settings)
+        {
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented, new StringEnumConverter());
+            Console.WriteLine($"{settings.GetType().Name}: {Environment.NewLine}{json}");
+        }  
+
+        private string GetInputFilePath() => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName);
     }
 }
