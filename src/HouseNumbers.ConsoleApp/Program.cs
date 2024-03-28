@@ -1,5 +1,4 @@
-﻿using HouseNumbers.BusinessLogic;
-using HouseNumbers.BusinessLogic.Models;
+﻿using HouseNumbers.BusinessLogic.Parsing;
 using HouseNumbers.BusinessLogic.Sorting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,7 @@ namespace HouseNumbers.App
         static void Main(string[] args)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"))
+                .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();
