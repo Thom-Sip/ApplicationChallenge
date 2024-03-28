@@ -5,7 +5,7 @@ namespace HouseNumbers.BusinessLogic
 {
     public interface IParsingService
     {
-        List<HouseNumberDetails> ParseCsv(string path);
+        List<HouseNumberDetails> ParseCsv();
     }
 
     public class ParsingService : IParsingService
@@ -19,12 +19,12 @@ namespace HouseNumbers.BusinessLogic
             AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         }
 
-        public List<HouseNumberDetails> ParseCsv(string path)
+        public List<HouseNumberDetails> ParseCsv()
         {
-            if (!File.Exists(path))
-                throw new ArgumentException($"No file exists at '{path}'");
+            if (!File.Exists(Settings.FileName))
+                throw new ArgumentException($"No file exists at '{Settings.FileName}'");
 
-            var data = File.ReadAllLines(path);
+            var data = File.ReadAllLines(Settings.FileName);
             var result = new List<HouseNumberDetails>();
 
             for (int i = 0; i < data.Length; i++)

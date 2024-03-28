@@ -25,7 +25,7 @@ namespace HouseNumbers.App
             PrintSettings(sortingSettings);
 
             // Get Entries from csv
-            List<HouseNumberDetails> entries = parsingService.ParseCsv(GetInputFilePath());
+            List<HouseNumberDetails> entries = parsingService.ParseCsv();
 
             // Get the requested SortingService based on the appsettings
             ISortingService sortingService = sortingServiceFactory.GetService(sortingSettings.Type);
@@ -41,8 +41,6 @@ namespace HouseNumbers.App
         {
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented, new StringEnumConverter());
             Console.WriteLine($"{settings.GetType().Name}: {Environment.NewLine}{json}");
-        }  
-
-        private string GetInputFilePath() => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, parseSettings.FileName);
+        }
     }
 }
