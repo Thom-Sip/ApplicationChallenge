@@ -10,7 +10,7 @@
     - ```dotnet HouseNumbers.App.dll --SortingSettings:Type QuickSortService```
 
 # Running the benchmark
-- Navigate to the benchmark output folder
+- Navigate to the benchmark project output folder
     - ```CD ..\..\..\..\..\tests\HouseNumbers.Benchmark\bin\Release\net8.0```
 - Run the Benchmark
     - ```dotnet HouseNumbers.Benchmark.dll```
