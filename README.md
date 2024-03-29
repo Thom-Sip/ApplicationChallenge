@@ -5,7 +5,11 @@ checks the housenumber and uses a regex to check the suffix. For the Sorting par
 
 In order to allow sorting to work you need some way of determining if an object is considered 
 greater, smaller or equal to another object. for this I implemented ```IComparable<T>``` on the 
-**HouseNumberDetails** object. This also means that the Sorting services can be used with any object that implements it.
+**HouseNumber** object. This also means that the Sorting services can be used with any object that implements it.
+
+Since the dataset does not appear to contain any entries that would be parsed to a complex housenumber like 
+12A-3 or 12-3. I did not implement a solution for parsing this data. I did however create a **HouseNumberExtended** object 
+that also implements ```IComparable<T>``` and added unit tests for it showing that the sorting would work on these objects.
 
 For benchmarking I used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
 
