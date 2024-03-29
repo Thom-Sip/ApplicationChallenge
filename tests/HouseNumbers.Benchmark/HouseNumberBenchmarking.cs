@@ -10,7 +10,7 @@ namespace HouseNumbers.Benchmark
         BubbleSortService BubbleSortService { get; init; }
         QuickSortService QuickSortService { get; init; }
         ParsingService ParsingService { get; init; }
-        List<HouseNumberDetails> Housenumbers { get; init; }
+        List<HouseNumber> Housenumbers { get; init; }
         ParseSettings ParseSettings { get; init; }
 
         public HouseNumberBenchmarking()
@@ -34,9 +34,9 @@ namespace HouseNumbers.Benchmark
         public void Parsing() => ParsingService.ParseCsv(ParseSettings);
 
         [Benchmark]
-        public void Sorting__BubbleSort() => BubbleSortService.Sort(new List<HouseNumberDetails>(Housenumbers), SortOrder.Ascending);
+        public void Sorting__BubbleSort() => BubbleSortService.Sort(new List<HouseNumber>(Housenumbers), SortOrder.Ascending);
 
         [Benchmark]
-        public void Sorting__QuickSort() => QuickSortService.Sort(new List<HouseNumberDetails>(Housenumbers), SortOrder.Ascending);
+        public void Sorting__QuickSort() => QuickSortService.Sort(new List<HouseNumber>(Housenumbers), SortOrder.Ascending);
     }
 }

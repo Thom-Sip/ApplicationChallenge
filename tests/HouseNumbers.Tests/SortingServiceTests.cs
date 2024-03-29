@@ -19,7 +19,7 @@ namespace HouseNumbers.Tests
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void BubbleSortAscendingTests<T>(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void BubbleSortAscendingTests<T>(List<HouseNumber> input, List<HouseNumber> expected)
         {
             // Sort dataset using BubbleSortService
             BubbleSortService.Sort(input, SortOrder.Ascending);
@@ -30,7 +30,7 @@ namespace HouseNumbers.Tests
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void BubbleSortDescendingTests<T>(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void BubbleSortDescendingTests<T>(List<HouseNumber> input, List<HouseNumber> expected)
         {
             // Sort dataset using BubbleSortService
             BubbleSortService.Sort(input, SortOrder.Descending);
@@ -42,7 +42,7 @@ namespace HouseNumbers.Tests
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void QuickSortAscendingTests(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void QuickSortAscendingTests(List<HouseNumber> input, List<HouseNumber> expected)
         {
             // Sort dataset using QuickSortService
             QuickSortService.Sort(input, SortOrder.Ascending);
@@ -53,7 +53,7 @@ namespace HouseNumbers.Tests
 
         [Theory]
         [MemberData(nameof(SortingTestData))]
-        public void QuickSortDescendingTests(List<HouseNumberDetails> input, List<HouseNumberDetails> expected)
+        public void QuickSortDescendingTests(List<HouseNumber> input, List<HouseNumber> expected)
         {
             // Sort dataset using QuickSortService
             QuickSortService.Sort(input, SortOrder.Descending);
@@ -68,7 +68,7 @@ namespace HouseNumbers.Tests
             List<object[]> data =
             [
                 [
-                    new List<HouseNumberDetails>
+                    new List<HouseNumber>
                     {
                         new() { Number = 2, Suffix = "A" },
                         new() { Number = 1, Suffix = "B" },
@@ -79,7 +79,7 @@ namespace HouseNumbers.Tests
                         new() { Number = 2 },
                         new() { Number = 2, Suffix = "BA" },
                     },
-                    new List<HouseNumberDetails>
+                    new List<HouseNumber>
                     {
                         new() { Number = 1 },
                         new() { Number = 1, Suffix = "A" },
@@ -92,13 +92,13 @@ namespace HouseNumbers.Tests
                     }
                 ],
                 [
-                    new List<HouseNumberDetails>
+                    new List<HouseNumber>
                     {
                         new() { Number = 2, Suffix = "A" },
                         new() { Number = 1 },
                         new() { Number = 2 },
                     },
-                    new List<HouseNumberDetails>
+                    new List<HouseNumber>
                     {
                         new() { Number = 1 },
                         new() { Number = 2 },

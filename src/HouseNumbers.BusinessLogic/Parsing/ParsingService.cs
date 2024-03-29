@@ -5,18 +5,18 @@ namespace HouseNumbers.BusinessLogic.Parsing
 {
     public interface IParsingService
     {
-        List<HouseNumberDetails> ParseCsv(ParseSettings settings);
+        List<HouseNumber> ParseCsv(ParseSettings settings);
     }
 
     public class ParsingService : IParsingService
     {
-        public List<HouseNumberDetails> ParseCsv(ParseSettings settings)
+        public List<HouseNumber> ParseCsv(ParseSettings settings)
         {
             if (!File.Exists(settings.FileName))
                 throw new ArgumentException($"No file exists at '{settings.FileName}'");
 
             var data = File.ReadAllLines(settings.FileName);
-            var result = new List<HouseNumberDetails>();
+            var result = new List<HouseNumber>();
 
             // Skip the first line since this is the header of the csv
             for (int i = 1; i < data.Length; i++)
@@ -26,7 +26,7 @@ namespace HouseNumbers.BusinessLogic.Parsing
 
                 if (int.TryParse(cells[0], out int number) && number > 0)
                 {
-                    var details = new HouseNumberDetails
+                    var details = new HouseNumber
                     {
                         Number = number,
                         Suffix = GetSuffix(cells, settings.SuffixValidationRegex),
@@ -86,7 +86,7 @@ namespace HouseNumbers.BusinessLogic.Parsing
         /// <summary>
         /// Check if an new record already exists in the result
         /// </summary>
-        static bool Contains(List<HouseNumberDetails> result, HouseNumberDetails newEntry)
+        static bool Contains(List<HouseNumber> result, HouseNumber newEntry)
         {
             for (int i = 0; i < result.Count; i++)
             {
